@@ -1,13 +1,34 @@
+// function myStackpromise() {
+//      return new Promise(function(myresolve){
+//          myresolve("success");
+//      });
+// }
+// let p;
+
+// myStackpromise().then(function(value){
+//     p = value
+// });
+
+// // 
+// console.log(p)
+
+
+
 function myStackpromise() {
-     return new Promise(function(myresolve){
-         myresolve("success");
-     });
+  return new Promise(function(myresolve){
+      myresolve("success");
+  });
 }
 
-myStackpromise().then(function(value){
-    console.log(value);
-},function(error){
-    console.log(error);
-});
-// console.log(p)
+let resolvedValue; // Declare a variable to store the resolved value
+
+ondone(value) => {
+  console.log(value)
+}
+
+myStackpromise().then(ondone);
+
+// console.log(resolvedValue)
+
+
 
