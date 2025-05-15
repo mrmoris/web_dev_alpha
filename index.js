@@ -1,60 +1,3 @@
-// // // function myStackpromise() {
-// // //      return new Promise(function(myresolve){
-// // //          myresolve("success");
-// // //      });
-// // // }
-// // // let p;
-
-// // // myStackpromise().then(function(value){
-// // //     p = value
-// // // });
-
-// // // // 
-// // // console.log(p)
-
-
-
-// // function myStackpromise() {
-// //   return new Promise(function(myresolve){
-      
-// //       console.log("processing...");
-// //       setTimeout(() =>{ ondone()
-// //         myresolve("success");
-// //       }, 5000);
-// //   });
-// // }
-
-// // let resolvedValue; // Declare a variable to store the resolved value
-
-// // ondone = () => {
-// //   console.log("ddddd");
-// // };
-
-// // ondone1 = (value) => {
-// //   console.log(value);
-// // };
-
-// // myStackpromise().then(ondone1);
-
-// // // console.log(resolvedValue)
-
-
-
-// let pms = new Promise(function(resolve){
-//   resolve("success")
-// })
-
-// async function myfun(){
-//     let p = await pms;
-//     console.log(p);
-// }
-// myfun();
-
-
-// const express = require('express');
-// const app = express();
-
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -68,7 +11,7 @@ let nextId = 1;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "todo-app/public")));
 
 // API Endpoints
 app.get("/api/todos", (req, res) => {
@@ -98,7 +41,6 @@ app.delete("/api/todos/:id", (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-
-
-
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on http://0.0.0.0:${PORT}`)
+);
