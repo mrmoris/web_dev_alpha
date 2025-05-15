@@ -14,7 +14,7 @@ async function loadTodos() {
     div.innerHTML = `
       <span class="${todo.completed ? "completed" : ""}">${todo.title}</span>
       <div>
-        <button onclick="toggleCompleted(${todo.id})">${todo.completed ? "Uncomplete" : "Complete"}</button>
+        <button onclick="toggleCompleted(${todo.id})">${todo.completed ? "khatam" : "Complete"}</button>
         <button onclick="deleteTodo(${todo.id})">Delete</button>
       </div>
     `;
@@ -50,4 +50,4 @@ window.deleteTodo = async (id) => {
 
 // Initial load
 loadTodos();
-ps
+ps;
