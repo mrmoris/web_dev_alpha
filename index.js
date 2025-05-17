@@ -46,160 +46,49 @@
 // }
 // myfun();
 
-// 1. Import the express module
-const express = require("express");
-const fs = require("fs");
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json()
-// 2. Create an Express application
+// 
+
+// const express = require('express');
+// const app = express();
+// const z = require('zod')
+const express = require('express');
+const { z } = require('zod');
+
 const app = express();
-app.use(bodyParser.json());
 
-// 3. Define a route for the homepage
-app.get("/app/", (req, res) => {
-  fs.readFile("b.txt", (err, data) => {
-    if (err) {
-      res.status(500).send("Error reading file");
-    } else {
-      res.send(data.toString());
-    }
-  });
+// Define the Zod schema
+const loginSchema = z.object({
+  email: z.string()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Must be a valid email" }),
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
 });
 
+app.get('/login', function(req, res) {
+  // Validate query parameters
+  const result = loginSchema.safeParse(req.query);
 
-app.post("/app/", function (req, res) {
-    let data = req.body;
-    fs.appendFile("b.txt", '\n' +JSON.stringify(data), function (err) {
-        if (err) {
-            return res.status(500).send("Error saving data");
-        }
-        res.send("saved");
-    });
+  if (!result.success) {
+    // Send validation errors
+    return res.status(400).json({ errors: result.error.errors });
+  }
+
+  // If valid, proceed
+  res.json({ message: "Login data is valid", data: result.data.email });
 });
 
+app.use(function(err, req, res, next){
+    console.log("Internal server error");
+})
 
-app.delete("/app/", function (req, res) {
-    const nameToDelete = req.body.name;
-    if (!nameToDelete) {
-        return res.status(400).send("No name provided");
-    }
-
-    fs.readFile("b.txt", "utf8", (err, data) => {
-        if (err) {
-            return res.status(500).send("Error reading file");
-        }
-
-        // Split file into lines, filter out the one to delete
-        const lines = data.split('\n').filter(line => {
-            if (!line.trim()) return false; // skip empty lines
-            try {
-                const obj = JSON.parse(line);
-                return obj.name !== nameToDelete;
-            } catch {
-                return true; // skip lines that aren't valid JSON
-            }
-        });
-
-        // Join remaining lines and overwrite the file
-        fs.writeFile("b.txt", lines.join('\n') + '\n', (err) => {
-            if (err) {
-                return res.status(500).send("Error writing file");
-            }
-            res.send("deleted");
-        });
-    });
-});
-
-
-
-app.delete("/app/", function (req, res) {
-    const nameToDelete = req.body.name;
-    if (!nameToDelete) {
-        return res.status(400).send("No name provided");
-    }
-
-    fs.readFile("b.txt", "utf8", (err, data) => {
-        if (err) {
-            return res.status(500).send("Error reading file");
-        }
-
-        // Split file into lines, filter out the one to delete
-        const lines = data.split('\n').filter(line => {
-            if (!line.trim()) return false; // skip empty lines
-            try {
-                const obj = JSON.parse(line);
-                return obj.name !== nameToDelete;
-            } catch {
-                return true; // skip lines that aren't valid JSON
-            }
-        });
-
-        // Join remaining lines and overwrite the file
-        fs.writeFile("b.txt", lines.join('\n') + '\n', (err) => {
-            if (err) {
-                return res.status(500).send("Error writing file");
-            }
-            res.send("deleted");
-        });
-    });
-});
-
-
-app.put("/app/", function (req, res) {   //{"oldName": "newCharlie","name":"Alice","age":25}
-    const oldName = req.body.oldName;
-    const newName = req.body.name;
-    const newAge = req.body.age;
-
-    if (!oldName || !newName || !newAge) {
-        return res.status(400).send("Missing fields (oldName, name, age)");
-    }
-
-    fs.readFile("b.txt", "utf8", function(err, data) {
-        if (err) {
-            return res.status(500).send("Error reading file");
-        }
-
-        // Split file into lines and update the matching entry
-        const lines = data.split('\n').filter(function(line) {
-            return line.trim() !== "";
-        });
-
-        let updated = false;
-        const updatedLines = lines.map(function(line) {
-            try {
-                const obj = JSON.parse(line);
-                if (obj.name === oldName) {
-                    obj.name = newName;
-                    obj.age = newAge;
-                    updated = true;
-                    return JSON.stringify(obj);
-                }
-                return line;
-            } catch (e) {
-                return line; // If not valid JSON, leave as is
-            }
-        });
-
-        if (!updated) {
-            return res.status(404).send("Person not found");
-        }
-
-        fs.writeFile("b.txt", updatedLines.join('\n') + '\n', function(err) {
-            if (err) {
-                return res.status(500).send("Error writing file");
-            }
-            res.send("updated");
-        });
-    });
-});
-
-
-
-
-
-
-// 4. Start the server on port 3000
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+// https://f0016f64-52ad-435d-94f9-559d2bfda724-00-3o2trva6bzz6v.sisko.replit.dev//login?email=YourEmail@example.com&password=Password@123
