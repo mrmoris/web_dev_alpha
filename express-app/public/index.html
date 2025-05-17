@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Express CRUD App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="max-w-2xl mx-auto p-6">
+      <h1 class="text-3xl font-bold mb-4 text-center text-blue-700">
+        Express CRUD App
+      </h1>
+      <div class="mb-8">
+        <button
+          id="refreshBtn"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
+          Refresh Entries
+        </button>
+        <div id="entries" class="mt-4"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Add Entry -->
+        <form id="addForm" class="bg-white rounded shadow p-4 space-y-2">
+          <h2 class="text-xl font-semibold text-green-700">Add Entry</h2>
+          <input
+            type="text"
+            id="addName"
+            placeholder="Name"
+            required
+            class="input"
+          />
+          <input
+            type="number"
+            id="addAge"
+            placeholder="Age"
+            required
+            class="input"
+          />
+          <button type="submit" class="btn bg-green-500 hover:bg-green-600">
+            Add
+          </button>
+        </form>
+        <!-- Delete Entry -->
+        <form id="deleteForm" class="bg-white rounded shadow p-4 space-y-2">
+          <h2 class="text-xl font-semibold text-red-700">Delete Entry</h2>
+          <input
+            type="text"
+            id="deleteName"
+            placeholder="Name"
+            required
+            class="input"
+          />
+          <button type="submit" class="btn bg-red-500 hover:bg-red-600">
+            Delete
+          </button>
+        </form>
+      </div>
+
+      <!-- Update Entry -->
+      <form id="updateForm" class="bg-white rounded shadow p-4 mt-6 space-y-2">
+        <h2 class="text-xl font-semibold text-yellow-700">Update Entry</h2>
+        <input
+          type="text"
+          id="oldName"
+          placeholder="Old Name"
+          required
+          class="input"
+        />
+        <input
+          type="text"
+          id="newName"
+          placeholder="New Name"
+          required
+          class="input"
+        />
+        <input
+          type="number"
+          id="newAge"
+          placeholder="New Age"
+          required
+          class="input"
+        />
+        <button type="submit" class="btn bg-yellow-500 hover:bg-yellow-600">
+          Update
+        </button>
+      </form>
+
+      <div id="message" class="mt-4 text-center"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
