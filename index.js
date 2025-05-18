@@ -77,7 +77,7 @@ app.get('/login', function(req, res) {
   }
 
   // If valid, proceed
-  res.json({ message: "Login data is valid", data: result.data.email });
+  authentication_in_jsres.json({ message: "Login data is valid", data: result.data.email });
 });
 
 app.use(function(err, req, res, next){
