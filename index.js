@@ -1,94 +1,59 @@
-// // // function myStackpromise() {
-// // //      return new Promise(function(myresolve){
-// // //          myresolve("success");
-// // //      });
-// // // }
-// // // let p;
-
-// // // myStackpromise().then(function(value){
-// // //     p = value
-// // // });
-
-// // // //
-// // // console.log(p)
-
-// // function myStackpromise() {
-// //   return new Promise(function(myresolve){
-
-// //       console.log("processing...");
-// //       setTimeout(() =>{ ondone()
-// //         myresolve("success");
-// //       }, 5000);
-// //   });
-// // }
-
-// // let resolvedValue; // Declare a variable to store the resolved value
-
-// // ondone = () => {
-// //   console.log("ddddd");
-// // };
-
-// // ondone1 = (value) => {
-// //   console.log(value);
-// // };
-
-// // myStackpromise().then(ondone1);
-
-// // // console.log(resolvedValue)
-
-// let pms = new Promise(function(resolve){
-//   resolve("success")
-// })
-
-// async function myfun(){
-//     let p = await pms;
-//     console.log(p);
-// }
-// myfun();
-
-// 
-
-// const express = require('express');
-// const app = express();
-// const z = require('zod')
-const express = require('express');
-const { z } = require('zod');
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const jwtPassword = "123456";
 
 const app = express();
 
-// Define the Zod schema
-const loginSchema = z.object({
-  email: z.string()
-    .min(1, { message: "Email is required" })
-    .email({ message: "Must be a valid email" }),
-  password: z.string()
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-    .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" }),
-});
+const ALL_USERS = [
+  {
+    username: "harkirat@gmail.com",
+    password: "123",
+    name: "harkirat singh",
+  },
+  {
+    username: "raman@gmail.com",
+    password: "123321",
+    name: "Raman singh",
+  },
+  {
+    username: "priya@gmail.com",
+    password: "123321",
+    name: "Priya kumari",
+  },
+];
 
-app.get('/login', function(req, res) {
-  // Validate query parameters
-  const result = loginSchema.safeParse(req.query);
+function userExists(username, password) {
+  // write logic to return true or false if this user exists
+  // in ALL_USERS array
+}
 
-  if (!result.success) {
-    // Send validation errors
-    return res.status(400).json({ errors: result.error.errors });
+app.post("/signin", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (!userExists(username, password)) {
+    return res.status(403).json({
+      msg: "User doesnt exist in our in memory db",
+    });
   }
 
-  // If valid, proceed
-  authentication_in_jsres.json({ message: "Login data is valid", data: result.data.email });
+  var token = jwt.sign({ username: username }, "shhhhh");
+  return res.json({
+    token,
+  });
 });
 
-app.use(function(err, req, res, next){
-    console.log("Internal server error");
-})
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.get("/users", function (req, res) {
+  const token = req.headers.authorization;
+  try {
+    const decoded = jwt.verify(token, jwtPassword);
+    const username = decoded.username;
+    // return a list of users other than this username
+  } catch (err) {
+    return res.status(403).json({
+      msg: "Invalid token",
+    });
+  }
 });
 
-
-
-// https://f0016f64-52ad-435d-94f9-559d2bfda724-00-3o2trva6bzz6v.sisko.replit.dev//login?email=YourEmail@example.com&password=Password@123
+app.listen(3000)
