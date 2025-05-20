@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
+      padding: 50px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #username,#pass {
+      width: 200px;
+      height: 25px;
+      border-radius: 10px;
+      border: 1px solid black;
+      padding: 5px;
+      margin-bottom: 15px;
+    }
+
+    #submitBtn {
+      border-radius: 10px;
+      border: 1px solid black;
+      padding: 10px 25px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #submitBtn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <input id="username" placeholder="Username" type="text" required><br>
+    <input id="pass" placeholder="Password" type="Password" required><br>
+    <button id="submitBtn">Login</button>
+    <p id="new"></p>
+  </div>
+
+  <script>
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      const x = document.getElementById("username").value;
+      const y = document.getElementById("pass").value;
+      document.getElementById("new").innerHTML = "Your passsword " + x + " is " + y ;
+      this.style.backgroundColor = "blue";
+    });
+  </script>
+</body>
+
+</html>
