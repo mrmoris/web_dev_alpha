@@ -1,2 +1,22 @@
-main {
+.App {
+  text-align: center;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  min-height: 100vh;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 1rem;
+  background-color: #add8e6;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 1rem 0;
 }
